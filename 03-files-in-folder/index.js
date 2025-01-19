@@ -9,7 +9,7 @@ async function displayInfo() {
       if (!file.isFile()) continue;
       const filepath = path.join(folderPath, file.name);
       const stats = await fs.stat(filepath);
-      const fileName = path.parse(file.name).name;
+      const fileName = path.parse(filepath).name;
       const fileExtname = path.extname(file.name).slice(1);
       const fileSize = `${(stats.size / 1024).toFixed(3)}kb`;
       console.log(`${fileName} - ${fileExtname} - ${fileSize}`);
