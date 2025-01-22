@@ -6,8 +6,14 @@ async function copyDir() {
   const folderPath = path.join(__dirname, 'files');
   try {
     await fs.mkdir(folderPathCopy, { recursive: true });
-    const files = await fs.readdir(folderPath);
-    for (const file of files) {
+    const sourceFiles = await fs.readdir(folderPath);
+    const existingCopyFiles = await fs.readdir(folderPathCopy);
+    for (const file of existingCopyFiles) {
+      if (!sourceFiles.includes(file)) {
+        await fs.unlink(path.join(folderPathCopy, file));
+      }
+    }
+    for (const file of sourceFiles) {
       const filepath = path.join(folderPath, file);
       const filepathCopy = path.join(folderPathCopy, file);
       const stats = await fs.stat(filepath);
